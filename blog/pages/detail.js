@@ -7,49 +7,54 @@ import Author from '../components/Author'
 import Advert from '../components/Advert'
 import Footer from '../components/Footer'
 import '../static/style/pages/detail.css'
+import axios from 'axios'
 
 
-import ReactMarkdown from 'react-markdown'
-import MarkNav from '../components/markdown/MarkdownNavBar'
-import 'markdown-navbar/dist/navbar.css'
+// import ReactMarkdown from 'react-markdown'
+// import MarkNav from '../components/markdown/MarkdownNavBar'
+// import 'markdown-navbar/dist/navbar.css'
+
+import marked from 'marked'
+import hignlights from 'highlight.js'
+import 'highlight.js/styles/monokai-sublime.css'
+
+import Tocify from '../components/tocify.tsx'
+
+import servicePath from '../config/apiUrl'
 
 
+const Detail = (props) => {
 
-const Detailed = () => {
-  let markdown='# P01:课程介绍和环境搭建\n' +
-  '[ **M** ] arkdown + E [ **ditor** ] = **Mditor**  \n' +
-  '> Mditor 是一个简洁、易于集成、方便扩展、期望舒服的编写 markdown 的编辑器，仅此而已... \n\n' +
-   '**这是加粗的文字**\n\n' +
-  '*这是倾斜的文字*`\n\n' +
-  '***这是斜体加粗的文字***\n\n' +
-  '~~这是加删除线的文字~~ \n\n'+
-  '\`console.log(111)\` \n\n'+
-  '# p02:来个Hello World 初始Vue3.0\n' +
-  '> aaaaaaaaa\n' +
-  '>> bbbbbbbbb\n' +
-  '>>> cccccccccc\n'+
-  '***\n\n\n' +
-  '# p03:Vue3.0基础知识讲解\n' +
-  '> aaaaaaaaa\n' +
-  '>> bbbbbbbbb\n' +
-  '>>> cccccccccc\n\n'+
-  '# p04:Vue3.0基础知识讲解\n' +
-  '> aaaaaaaaa\n' +
-  '>> bbbbbbbbb\n' +
-  '>>> cccccccccc\n\n'+
-  '#5 p05:Vue3.0基础知识讲解\n' +
-  '> aaaaaaaaa\n' +
-  '>> bbbbbbbbb\n' +
-  '>>> cccccccccc\n\n'+
-  '# p06:Vue3.0基础知识讲解\n' +
-  '> aaaaaaaaa\n' +
-  '>> bbbbbbbbb\n' +
-  '>>> cccccccccc\n\n'+
-  '# p07:Vue3.0基础知识讲解\n' +
-  '> aaaaaaaaa\n' +
-  '>> bbbbbbbbb\n' +
-  '>>> cccccccccc\n\n'+
-  '``` var a=11; ```'
+  const renderer = new marked.Renderer()
+
+  const tocify = new Tocify()
+  renderer.heading = function(text, level, raw) {
+    const anchor = tocify.add(text, level);
+    return `<a id="${anchor}" href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
+  };
+
+  marked.setOptions({
+    renderer: renderer,
+    // 采用Git风格的解析
+    gfm: true,
+    // 是否容错，默认不容错
+    pedantic: false,
+    // 原始输出，忽略html标签 默认为true
+    sanitize: false,
+    // 是否输出表格，gfm需要为true
+    tables: true,
+    // 换行符
+    breaks: false,
+    // 列表符, 默认为false
+    smartLists: true,
+    // 代码高亮
+    highlight: function(code) {
+      // 使用 highlight.js 让代码高亮
+      return hignlights.highlightAuto(code).value
+    }
+  })
+
+  let html = marked(props.article_content)
   return (
     <>
       <Head>
@@ -75,11 +80,8 @@ const Detailed = () => {
                 <span><Icon type="folder"/>视频</span>
                 <span><Icon type="fire"/>42人</span>
               </div>
-              <div className="detailed-content">
-                <ReactMarkdown 
-                  source={markdown} 
-                  escapeHtml={false}  
-                />
+              <div className="detailed-content"
+                dangerouslySetInnerHTML={{__html: html}}>
               </div>
             </div>
           </div>
@@ -91,14 +93,9 @@ const Detailed = () => {
           <Affix offsetTop={5}>
             <div className="detailed-nav comm-box">
               <div className="nav-title">文章目录</div>
-              <MarkNav 
-                className="article-menu"
-                source={markdown}
-                // 锚点距离顶部的位置，就是点击目录跳到的位置距离顶部的距离
-                // headingTopOffset={0}
-                // 带不带编号，默认是带编号的
-                ordered={false}
-              />
+              <div className="toc-list">
+                {tocify && tocify.render()}
+              </div>
             </div>
           </Affix>
         </Col>
@@ -108,4 +105,17 @@ const Detailed = () => {
   )
 }
 
-export default Detailed
+Detail.getInitialProps = async (context) => {
+  let id = context.query.id
+  const promise = new Promise((resolve) => {
+    axios.get(servicePath.getArticleById+id).then(
+      (res)=>{
+        console.log(res.data.data[0])
+        resolve(res.data.data[0])
+      }
+    )
+  })
+  return await promise
+}
+
+export default Detail
