@@ -35,7 +35,7 @@ module.exports = appInfo => {
       // password
       password: 'Sercuixin2010',
       // database
-      database: 'react_blog',    
+      database: 'react_blog',
     },
     // load into app, default is open
     app: true,
@@ -44,7 +44,8 @@ module.exports = appInfo => {
   };
 
   config.cors = {
-    origin: '*',
+    origin: 'http://localhost:3000',
+    credentials: true, // 允许Cook可以跨域
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
   };
 

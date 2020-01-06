@@ -47,6 +47,7 @@ const Detail = (props) => {
     breaks: false,
     // 列表符, 默认为false
     smartLists: true,
+    smartypants: false,
     // 代码高亮
     highlight: function(code) {
       // 使用 highlight.js 让代码高亮

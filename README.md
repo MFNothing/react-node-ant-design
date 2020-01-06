@@ -68,6 +68,20 @@
 * 安装 egg-cors 解决跨域的问题
     * `yarn add egg-cors`
 
+
+## admin 后台
+* 搭建环境
+    * `sudo npm i -g create-react-app`
+    * `create-react-app admin`
+* 安装 antd
+    * `yarn add antd`
+* 安装 router
+    * `yarn add react-router-dom`
+* 安装 marked
+    * `yarn add marked`
+* 安装 axios
+    * `yarn add axios`
+
 ```
 
 卸载mysql执行的命令
