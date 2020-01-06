@@ -104,3 +104,13 @@ sudo rm -rf /var/db/receipts/com.mysql.*
     * view文件夹：模板文件夹，相当于表现层的专属文件夹，这个项目，我们使用接口的形式，所以不需要建立view文件夹。
     * extend文件：当我们需要写一些模板中使用的扩展方法时，我们会放到这个文件夹里。
     * middleware：中间件文件夹，用来写中间件的，比如最常用的路由首位。
+
+
+
+* mysql 密码重置
+    * 使用安全模式启动数据库 `sudo /usr/local/mysql/bin/mysqld_safe --skip-grant-tables`
+    * 打开新的终端，连接数据库 `/usr/local/mysql/bin/mysql -u root`
+    * 修改数据库密码 密码为234 可以自行修改 `UPDATE mysql.user SET authentication_string=PASSWORD('234') WHERE User='root';`
+    * 执行 `FLUSH PRIVILEGES;`
+    * 退出 `\q`
+    * 停止MySQL服务 `sudo /usr/local/mysql/support-files/mysql.server stop`
