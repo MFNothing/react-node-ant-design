@@ -24,6 +24,13 @@
     * 安装完要注意要引入css
         * `import 'markdown-navbar/dist/navbar.css';`
     * 有点问题，自己clone下来改一下，没有初始化替换的逻辑
+* 安装 axios 用于网络请求
+    * `yarn add axios`
+* 安装 marked 和 highlight.js 用于新的解析 markdown 的库，这个比较成熟
+    * `yarn add marked`
+    * `yarn add highlight.js`
+* 安装 lodash 模块
+    * `yarn add lodash`
 
 
 ## service 中台
@@ -58,6 +65,8 @@
 * 干掉某个端口的进程
     * `lsof -i :7001` 7001 代表端口号，查询到对应的pid
     * `kill -9 进程PID`
+* 安装 egg-cors 解决跨域的问题
+    * `yarn add egg-cors`
 
 ```
 

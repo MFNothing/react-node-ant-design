@@ -125,10 +125,8 @@ export class MarkdownNavbar extends Component {
   }
 
   _initheadingsId() {
-      debugger
     this._getNavStructure().forEach(t => {
       const headings = document.querySelectorAll(`h${t.level}`);
-      debugger
       const curheading = Array.prototype.slice
         .apply(headings)
         .find(
