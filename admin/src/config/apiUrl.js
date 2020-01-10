@@ -1,4 +1,5 @@
-const ipUrl = 'http://localhost:7001/admin/'
+// const ipUrl = 'http://localhost:7001/admin/'
+const ipUrl = 'http://service.mfnothing.top/admin'
 
 const servicePath = {
     checkLogin:ipUrl + 'checkLogin',  // 检查用户名密码是否正确
