@@ -54,7 +54,8 @@ module.exports = appInfo => {
     csrf: {
       enable: false,
     },
-    domainWhiteList: [ '*' ],
+    // 当credentials这个配置为true时，不能设置origin为*
+    domainWhiteList: [ 'http://localhost:3000', 'http://admin.mfnothing.top/' ],
   };
 
   /*
