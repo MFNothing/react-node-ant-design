@@ -43,8 +43,9 @@ module.exports = appInfo => {
     agent: false,
   };
 
+  // 不设置 cors中的orgin 会走 security 中的domainWhiteList，如果设置了，会忽略 domainWhiteList
   config.cors = {
-    origin: 'http://localhost:3000',
+    // origin: 'http://localhost:3000',
     credentials: true, // 允许Cook可以跨域
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
   };
