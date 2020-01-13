@@ -55,7 +55,7 @@ module.exports = appInfo => {
       enable: false,
     },
     // 当credentials这个配置为true时，不能设置origin为*
-    domainWhiteList: [ 'http://localhost:3000', 'http://service.mfnothing.top/', 'http://admin.mfnothing.top/' ],
+    domainWhiteList: [ 'http://localhost:3000', 'http://service.mfnothing.top/', 'http://admin.mfnothing.top:3000' ],
   };
 
   /*
