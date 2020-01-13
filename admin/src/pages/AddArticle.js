@@ -17,7 +17,7 @@ function AddArticle(props) {
     const [introducemd, setIntroducemd] = useState()            //简介的markdown内容
     const [introducehtml, setIntroducehtml] = useState('等待编辑') //简介的html内容
     const [showDate, setShowDate] = useState()   //发布日期
-    const [updateDate, setUpdateDate] = useState() //修改日志的日期
+    // const [updateDate, setUpdateDate] = useState() //修改日志的日期
     const [typeInfo, setTypeInfo] = useState([]) // 文章类别信息
     const [selectedType, setSelectType] = useState(0) //选择的文章类别
 
@@ -89,7 +89,7 @@ function AddArticle(props) {
         let datetext = showDate.replace('-', '/') //把字符串转换成时间戳
         dataProps.addTime = (new Date(datetext).getTime()) / 1000
 
-        if (articleId == 0) {
+        if (articleId === 0) {
             console.log('articleId=:' + articleId)
             dataProps.view_count = Math.ceil(Math.random() * 100) + 1000
             axios({

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout, Menu, Icon } from 'antd';
 import '../static/css/AdminIndex.css'
 
 import { Route } from "react-router-dom";
 import AddArticle from './AddArticle'
-
 import ArticleList from './ArticleList'
+import AddCategory from './AddCategory'
+import CategoryList from './CategoryList'
+import AddPhoto from './AddPhoto'
+import PhotoList from './PhotoList'
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 
@@ -20,60 +23,88 @@ function AdminIndex(props) {
   };
 
   const handleClickArticle = e => {
-    if (e.key === 'addArticle') {
-      props.history.push('/index/add/')
-    } else {
-      props.history.push('/index/list/')
+    if (e.key === 'addArticle') { // 添加文章
+      props.history.push('/index/addArticle/')
+    } else if (e.key === 'articleList') { // 文章列表
+      props.history.push('/index/articelList/')
+    } else if (e.key === 'addCategory') { // 添加分类
+      props.history.push('/index/addCategory/')
+    } else if (e.key === 'categoryList') { // 分类列表
+      props.history.push('/index/categoryList/')
+    } else if (e.key === 'addPhoto') { // 添加图片
+      props.history.push('/index/addPhoto/')
+    } else if (e.key === 'photoList') { // 图片列表
+      props.history.push('/index/photoList/')
     }
+  }
 
+  const renderMenu = () => {
+    const menuData = [
+      {title: '分类管理', items: [{key: 'addCategory', title: '添加分类'}, {key: 'categoryList', title: '分类列表'}]},
+      {title: '文章管理', items: [{key: 'addArticle', title: '添加文章'}, {key: 'articleList', title: '文章列表'}]},
+      {title: '图片管理', items: [{key: 'addPhoto', title: '添加图片'}, {key: 'photoList', title: '图片列表'}]},
+      {title: '用户管理'}
+    ]
+    return (
+      <Menu defaultSelectedKeys={['文章管理']} mode="inline" defaultOpenKeys={['文章管理']}>
+        {
+          menuData.map((menu) => {
+            if (menu.items) {
+              return (
+                <SubMenu
+                  key={menu.title}
+                  onClick={handleClickArticle}
+                  title={
+                    <span>
+                      <Icon type="desktop" />
+                      <span>{menu.title}</span>
+                    </span>
+                  }
+                >
+                  {
+                    menu.items.map((item) => (
+                       <Menu.Item key={item.key}>{item.title}</Menu.Item>
+                    ))
+                  }
+                </SubMenu>
+              )
+            } else {
+              return (
+                <Menu.Item key="2">
+                  <Icon type="desktop" />
+                    <span>{menu.title}</span>
+                </Menu.Item>
+              )
+            }
+          })
+        }
+      </Menu>
+    )
   }
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider theme="light" collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div className="logo" />
-        <Menu defaultSelectedKeys={['1']} mode="inline">
-          <Menu.Item key="1">
-            <Icon type="pie-chart" />
-            <span>工作台</span>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <Icon type="desktop" />
-            <span>添加文章</span>
-          </Menu.Item>
-          <SubMenu
-            key="sub1"
-            onClick={handleClickArticle}
-            title={
-              <span>
-                <Icon type="desktop" />
-                <span>文章管理</span>
-              </span>
-            }
-          >
-            <Menu.Item key="addArticle">添加文章</Menu.Item>
-            <Menu.Item key="articleList">文章列表</Menu.Item>
-          </SubMenu>
-
-          <Menu.Item key="9">
-            <Icon type="file" />
-            <span>留言管理</span>
-          </Menu.Item>
-        </Menu>
+       {
+         renderMenu()
+       }
       </Sider>
       <Layout>
-        <Header style={{ background: '#f0f2f5', padding: 0, borderBottomStyle: 'solid', borderBottomWidth: 1, borderBottomColor: '#fff' }} />
-        <Content style={{ margin: '0 16px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>后台管理</Breadcrumb.Item>
-            <Breadcrumb.Item>工作台</Breadcrumb.Item>
-          </Breadcrumb>
+        {/* <Header style={{ background: '#f0f2f5', padding: 0, borderBottomStyle: 'solid', borderBottomWidth: 1, borderBottomColor: '#fff' }} /> */}
+        <Content style={{ margin: '2px' }}>
           <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
             <div>
               <Route path="/index/" exact component={AddArticle} />
-              <Route path="/index/add/" exact component={AddArticle} />
-              <Route path="/index/add/:id" exact component={AddArticle} />
-              <Route path="/index/list/" component={ArticleList} />
+              <Route path="/index/addArticle/" exact component={AddArticle} />
+              <Route path="/index/addArticle/:id" exact component={AddArticle} />
+              <Route path="/index/articelList/" component={ArticleList} />
+              <Route path="/index/addCategory/" exact component={AddCategory} />
+              <Route path="/index/addCategory/:id" exact component={AddCategory} />
+              <Route path="/index/categoryList/" component={CategoryList} />
+              <Route path="/index/addPhoto/" exact component={AddPhoto} />
+              <Route path="/index/addPhoto/:id" exact component={AddPhoto} />
+              <Route path="/index/photoList/" component={PhotoList} />
             </div>
           </div>
         </Content>
