@@ -93,7 +93,11 @@ function AdminIndex(props) {
       <Layout>
         {/* <Header style={{ background: '#f0f2f5', padding: 0, borderBottomStyle: 'solid', borderBottomWidth: 1, borderBottomColor: '#fff' }} /> */}
         <Content style={{ margin: '2px' }}>
-          <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+          {/* 
+            1.vw：1vw等于视口宽度的1%。
+            2.vh：1vh等于视口高度的1%。
+          */}
+          <div style={{ padding: 24, background: '#fff', minHeight: '100%' }}>
             <div>
               <Route path="/index/" exact component={AddArticle} />
               <Route path="/index/addArticle/" exact component={AddArticle} />

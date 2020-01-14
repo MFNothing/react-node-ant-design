@@ -45,7 +45,7 @@ function AddArticle(props) {
     }
 
     //从中台得到文章类别信息
-    const getTypeInfo = (props) => {
+    const getTypeInfo = () => {
         axios({
             method: 'get',
             url: servicePath.getTypeInfo,
@@ -55,6 +55,7 @@ function AddArticle(props) {
             res => {
                 if (res.data.data === "没有登录") {
                     localStorage.removeItem('openId')
+                    debugger
                     props.history.push('/')
                 } else {
                     setTypeInfo(res.data.data)
