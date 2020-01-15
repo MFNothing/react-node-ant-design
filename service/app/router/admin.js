@@ -11,4 +11,7 @@ module.exports = app => {
   router.get('/admin/getArticleList', adminauth, controller.admin.main.getArticleList);
   router.get('/admin/delArticle/:id', adminauth, controller.admin.main.delArticle);
   router.get('/admin/getArticleById/:id', adminauth, controller.admin.main.getArticleById);
+
+  // 分类
+  router.post('/admin/addCategory', adminauth, controller.admin.category.addCategory);
 };
