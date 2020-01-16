@@ -14,4 +14,5 @@ module.exports = app => {
 
   // 分类
   router.post('/admin/addCategory', adminauth, controller.admin.category.addCategory);
+  router.get('/admin/getParentCategoryNames', adminauth, controller.admin.category.getParentCategoryNames);
 };

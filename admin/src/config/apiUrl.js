@@ -1,6 +1,6 @@
-const ipUrl = 'http://localhost:7001/admin/'
+// const ipUrl = 'http://localhost:7001/admin/'
 // const ipUrl = 'http://service.mfnothing.top/admin/'
-
+const ipUrl = process.env.REACT_APP_API_URL
 const servicePath = {
     checkLogin: ipUrl + 'checkLogin',  // 检查用户名密码是否正确
     getTypeInfo: ipUrl + 'getTypeInfo',  // 获得文章类别信息

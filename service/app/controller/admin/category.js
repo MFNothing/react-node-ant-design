@@ -5,10 +5,10 @@ const Controller = require('egg').Controller;
 class TypeController extends Controller {
 
   async addCategory() {
-    const { categoryName = '', parentCategoryName = '', icon = '' } = this.ctx.request.body || {};
+    const { categoryName = '', parentCategoryIds = '', icon = '' } = this.ctx.request.body || {};
     const result = await this.app.mysql.insert('category', {
       categoryName,
-      parentCategoryName,
+      parentCategoryIds,
       icon,
     });
     // 判断是否插入成功
@@ -18,6 +18,13 @@ class TypeController extends Controller {
       isScuccess: insertSuccess,
       insertId: insertId || -1,
     };
+  }
+
+  async getParentCategoryNames() {
+    const results = await this.app.mysql.select('category', {
+      where: { parentCategoryIds: '' },
+    });
+    this.ctx.body = { data: results };
   }
 
 }

@@ -12,7 +12,7 @@ const { Option } = Select
 function AddCategory(props) {
     const [categoryName, setCategoryName] = useState('')  // 分类名称
     const [categoryIcon, setCategoryIcon] = useState('')   // 分类图标
-    const [parentCategoryName, setParentCategoryName] = useState('')  // 父级分类名称
+    const [parentCategoryIds, setParentCategoryIds] = useState([])  // 父级分类名称
 
     // 只首次进入时执行，相当于componentDidMount
     useEffect(() => {
@@ -22,7 +22,32 @@ function AddCategory(props) {
     // 请求 <----- 开始 ------>
 
     const getParentCategoryNames = async () => {
-        
+        const { data } = await axios({
+            method: 'get',
+            url: servicePath.getParentCategoryNames,
+            header: { 'Access-Control-Allow-Origin': '*' },
+            withCredentials: true
+        })
+        if (data && data.data) {
+            setParentCategoryIds(data.data || [])
+        }
+    }
+
+    const onSubmitClick = async () => {
+        if (!categoryName) {
+            message.error('请填写分类名称')
+        }
+        const resutl = await axios({
+            method: 'post',
+            url: servicePath.addCategory,
+            header: { 'Access-Control-Allow-Origin': '*' },
+            withCredentials: true,
+            data: {
+                categoryName,
+                categoryIcon,
+                parentCategoryIds
+            }
+        })
     }
 
     // 请求 <----- 结束 ------>
@@ -60,6 +85,7 @@ function AddCategory(props) {
                 <div className="category-input">
                     <span>父级分类名称: </span>
                     <Select
+                        mode="multiple"
                         showSearch
                         style={{ padding: '8px 0 8px 8px', flex: 1}}
                         placeholder="输入父级分类名称（可不选择）"
@@ -68,15 +94,17 @@ function AddCategory(props) {
                             option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                         }
                     >
-                        <Option value="jack">Jack</Option>
-                        <Option value="lucy">Min</Option>
-                        <Option value="tom">Tom</Option>
+                        {
+                            parentCategoryIds.map((item) => (
+                                <Option value={item.id}>{item.categoryName}</Option>
+                            ))
+                        }
                     </Select>
                 </div>
             </Row>
             <Row gutter={4}>
                 <div className="category-button">
-                    <Button type="primary" block>提交</Button>
+                    <Button type="primary" block onClick={onSubmitClick}>提交</Button>
                 </div>
             </Row>
         </div>

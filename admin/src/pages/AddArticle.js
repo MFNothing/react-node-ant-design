@@ -55,7 +55,6 @@ function AddArticle(props) {
             res => {
                 if (res.data.data === "没有登录") {
                     localStorage.removeItem('openId')
-                    debugger
                     props.history.push('/')
                 } else {
                     setTypeInfo(res.data.data)
