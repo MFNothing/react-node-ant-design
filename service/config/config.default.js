@@ -27,13 +27,13 @@ module.exports = appInfo => {
     // database configuration
     client: {
       // host
-      host: 'mfnothing.top',
+      host: process.env.NODE_ENV === 'production' ? 'mfnothing.top' : 'localhost',
       // port
       port: '3306',
       // username
       user: 'root',
       // password
-      password: 'min0012',
+      password: process.env.NODE_ENV === 'production' ? 'min0012' : 'Sercuixin2010',
       // database
       database: 'react_blog',
     },

@@ -12,7 +12,9 @@ const { Option } = Select
 function AddCategory(props) {
     const [categoryName, setCategoryName] = useState('')  // 分类名称
     const [categoryIcon, setCategoryIcon] = useState('')   // 分类图标
-    const [parentCategoryIds, setParentCategoryIds] = useState([])  // 父级分类名称
+    const [parentCategoryNames, setParentCategoryNames] = useState([])  // 父级分类名称
+    const [selectedParentCategoryId, setSelectedParentCategoryId] = useState('')  // 选中的父级分类id
+    const [categoryId, setCategoryId] = useState(0) // 分类id
 
     // 只首次进入时执行，相当于componentDidMount
     useEffect(() => {
@@ -29,7 +31,7 @@ function AddCategory(props) {
             withCredentials: true
         })
         if (data && data.data) {
-            setParentCategoryIds(data.data || [])
+            setParentCategoryNames(data.data || [])
         }
     }
 
@@ -37,7 +39,7 @@ function AddCategory(props) {
         if (!categoryName) {
             message.error('请填写分类名称')
         }
-        const resutl = await axios({
+        const {data} = await axios({
             method: 'post',
             url: servicePath.addCategory,
             header: { 'Access-Control-Allow-Origin': '*' },
@@ -45,16 +47,20 @@ function AddCategory(props) {
             data: {
                 categoryName,
                 categoryIcon,
-                parentCategoryIds
+                parentCategoryId: selectedParentCategoryId
             }
         })
+        if (data && data.isScuccess) {
+            setCategoryId(data.insertId)
+            message.success('添加成功')
+            props.history.push('/index/categoryList/')
+        }
     }
 
     // 请求 <----- 结束 ------>
 
-    const onCategoryNameInputChange = (e) => {
-        const {value = ''} = e.target
-        setCategoryName(value)
+    const onParentCategoryIdChange = (value) => {
+        setSelectedParentCategoryId(value)
     }
 
     const onCategoryIconInputChange = (e) => {
@@ -85,18 +91,18 @@ function AddCategory(props) {
                 <div className="category-input">
                     <span>父级分类名称: </span>
                     <Select
-                        mode="multiple"
                         showSearch
                         style={{ padding: '8px 0 8px 8px', flex: 1}}
                         placeholder="输入父级分类名称（可不选择）"
                         optionFilterProp="children"
+                        onChange={onParentCategoryIdChange}
                         filterOption={(input, option) =>
                             option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                         }
                     >
                         {
-                            parentCategoryIds.map((item) => (
-                                <Option value={item.id}>{item.categoryName}</Option>
+                            parentCategoryNames.map((item) => (
+                                <Option key={item.id} value={item.id}>{item.categoryName}</Option>
                             ))
                         }
                     </Select>
